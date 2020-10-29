@@ -24,7 +24,7 @@ for file_line in file_lines:
     questions.append(split_line[0])
     answers.append(split_answer)
 
-print("\nWelcome to Lenny! Version 0.1:28.10.20")
+print("\nWelcome to Lenny! Version 0.2:29.10.20")
 print("To get started, type in any question! Type \"help\" to get more detailed instructions.\n")
 
 while True:
@@ -37,6 +37,16 @@ while True:
 
     if user_input == "help":
         connect.run_process("helpcmd")
+        continue
+    
+    math_symbols_replaced = user_input.replace("-", "+").replace("/", "+").replace("*", "+")
+    math_symbol_split = math_symbols_replaced.split("+")
+
+    if len(math_symbol_split) > 1:
+        left_input_length = len(math_symbol_split[0])
+        input_operator = user_input[left_input_length]
+
+        connect.run_process("mathcmd", input_operator, math_symbol_split[0], math_symbol_split[1])
         continue
 
     # User-generated question/answer handling
@@ -55,3 +65,4 @@ while True:
         new_qa_line = user_input+"~"+new_answer+"\n"
         qadocument_a.write(new_qa_line)
         qadocument_a.close()
+
