@@ -1,7 +1,7 @@
 def func():
     print("\nI work by learning the answers to any question you have, then remembering them for later.\nFor more help, type in any of the subjects below for details.\nWhen you're done, type in \"exit\" to go back.")
 
-    print("\nformat\ncommands\ninput markers\n")
+    print("\nformat\ncommands\ninput markers\nmath\n")
 
     while True:
         user_input = input("[H] ")
@@ -24,4 +24,9 @@ def func():
             print(" [A] - answering input that will set whatever you write as the answer to your question")
             continue
 
+        if user_input == "math":
+            print("So far I can only do basic math, like addition, subtraction, multiplication and division.")
+            print("If you want me to calculate something for you, write in a question with 2 numbers with a math symbol (+, -, /, *)")
+            continue
+        
         print("I couldn't find the subject you're looking to find out more about! Maybe check for any typos?")
