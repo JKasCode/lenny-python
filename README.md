@@ -8,8 +8,3 @@ So far Lenny is kind of useless because you need to know the answer to your ques
  - Added math
  - Moved cmd module files to cmds folder
  - Updated connect.py
-
-### Instructions to run Lenny
- 1. Download the zip file or clone this repository
- 2. Through the command line, cd (change directory) to the Lenny folder
- 3. Run `python3 main.py` to run Lenny and all it's operations
