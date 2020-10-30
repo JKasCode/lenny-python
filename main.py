@@ -24,7 +24,7 @@ for file_line in file_lines:
     questions.append(split_line[0])
     answers.append(split_answer)
 
-print("\nWelcome to Lenny! Version 0.2:29.10.20")
+print("\nWelcome to Lenny! Version 0.3:30.10.20")
 print("To get started, type in any question! Type \"help\" to get more detailed instructions.\n")
 
 while True:
@@ -49,6 +49,14 @@ while True:
         connect.run_process("mathcmd", input_operator, math_symbol_split[0], math_symbol_split[1])
         continue
 
+    if user_input == "services":
+        connect.list_processes()
+        continue
+
+    if user_input == "whats the time" or user_input == "what is the time" or user_input == "time":
+        connect.run_process("timecmd")
+        continue
+
     # User-generated question/answer handling
     if user_input in questions:
         list_place = questions.index(user_input)
@@ -65,4 +73,3 @@ while True:
         new_qa_line = user_input+"~"+new_answer+"\n"
         qadocument_a.write(new_qa_line)
         qadocument_a.close()
-
