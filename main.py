@@ -12,6 +12,16 @@ answers = []
 
 print("Formatting and sorting QAs...")
 
+# commands array
+cmds = [
+    ["help", "helpcmd"],
+    ["services", connect.list_processes],
+    ["time", "timecmd"],
+    ["math", "mathcmd"],
+    ["exit", exit],
+    ["quit", exit]
+]
+
 # Removes the annoying \n in all the lines
 for file_line in file_lines:
     file_place = file_lines.index(file_line)
@@ -25,7 +35,7 @@ for file_line in file_lines:
     answers.append(split_answer)
 
 print("\nWelcome to Lenny! Version 0.3:30.10.20")
-print("To get started, type in any question! Type \"help\" to get more detailed instructions.\n")
+print("To get started, type in any question! Type \"/help\" to get more detailed instructions.\n")
 
 while True:
     user_input = input("[~] ")
@@ -34,28 +44,26 @@ while True:
     # Built in functions (priority) so that user can't overwrite them
     if user_input == "exit" or user_input == "quit":
         exit()
-
-    if user_input == "help":
-        connect.run_process("helpcmd")
-        continue
     
-    math_symbols_replaced = user_input.replace("-", "+").replace("/", "+").replace("*", "+")
-    math_symbol_split = math_symbols_replaced.split("+")
+    # Command handling
+    if user_input[0] == "/":
+        foundResult = False
 
-    if len(math_symbol_split) > 1:
-        left_input_length = len(math_symbol_split[0])
-        input_operator = user_input[left_input_length]
-
-        connect.run_process("mathcmd", input_operator, math_symbol_split[0], math_symbol_split[1])
-        continue
-
-    if user_input == "services":
-        connect.list_processes()
-        continue
-
-    if user_input == "whats the time" or user_input == "what is the time" or user_input == "time":
-        connect.run_process("timecmd")
-        continue
+        for cmd in cmds:
+            if user_input[1:] == cmd[0]:
+                if isinstance(cmd[1], str):
+                    connect.run_process(cmd[1])
+                else:
+                    cmd[1]()
+                
+                foundResult = True
+                break
+        
+        if foundResult == True: 
+            continue
+        else:
+            print("I don't think I have any commands that go by that name. Maybe try removing spaces or punctuation!")
+            continue
 
     # User-generated question/answer handling
     if user_input in questions:
