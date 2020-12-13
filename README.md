@@ -4,10 +4,9 @@ Lenny is a self-learning AI that can remember the answers to any question the us
 
 So far Lenny is kind of useless because you need to know the answer to your question for Lenny to learn.
 
-### 0.3:30.10.20 updates:
- - Added time/date
- - Services and service handling
- - 2 new commands: `time` and `services`
+### 0.3.1 updates:
+ - Added commands
+ - Disabled mathcmd service by default
  
 ### Using Lenny
  1. Clone this repository
