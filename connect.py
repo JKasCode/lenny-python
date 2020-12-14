@@ -3,6 +3,7 @@
 import cmds.helpcmd
 import cmds.mathcmd
 import cmds.timecmd
+import cmds.sqrtcmd
 
 service_list_file = open("service-list", "r")
 services = service_list_file.readlines()
