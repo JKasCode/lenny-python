@@ -18,6 +18,7 @@ cmds = [
     ["services", connect.list_processes],
     ["time", "timecmd"],
     ["math", "mathcmd"],
+    ["sqrt", "sqrtcmd"],
     ["exit", exit],
     ["quit", exit]
 ]
@@ -29,10 +30,9 @@ for file_line in file_lines:
 
 for file_line in file_lines:
     split_line = file_line.split("~")
-    split_answer = split_line[1].split(";")
 
     questions.append(split_line[0])
-    answers.append(split_answer)
+    answers.append(split_line[1])
 
 print("\nWelcome to Lenny! Version 0.3:30.10.20")
 print("To get started, type in any question! Type \"/help\" to get more detailed instructions.\n")
@@ -40,6 +40,8 @@ print("To get started, type in any question! Type \"/help\" to get more detailed
 while True:
     user_input = input("[~] ")
     user_input = user_input.lower()
+    for letter in "?!.,\"'":
+        user_input = user_input.replace(letter, "")
 
     # Built in functions (priority) so that user can't overwrite them
     if user_input == "exit" or user_input == "quit":
@@ -68,7 +70,7 @@ while True:
     # User-generated question/answer handling
     if user_input in questions:
         list_place = questions.index(user_input)
-        print(answers[list_place][0])
+        print(answers[list_place])
     else:
         print("I don't know the answer to that yet. Can you please tell me? If you're not sure, type \"cancel\" to stop writing.")
         new_answer = input("[A] ")
@@ -76,6 +78,9 @@ while True:
         if new_answer == "cancel":
             print("Cancelled")
             continue
+        
+        answers.append(new_answer)
+        questions.append(user_input)
 
         qadocument_a = open("qadoc", "a")
         new_qa_line = user_input+"~"+new_answer+"\n"
