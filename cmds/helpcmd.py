@@ -1,7 +1,7 @@
 def func():
     print("\nI work by learning the answers to any question you have, then remembering them for later.\nFor more help, type in any of the subjects below for details.\nWhen you're done, type in \"exit\" to go back.")
 
-    print("\nformat\ncommands\ninput markers\nmath\nservices\n")
+    print("\nformat\ncommands\ninput markers\n")
 
     while True:
         user_input = input("[H] ")
@@ -14,7 +14,12 @@ def func():
             continue
 
         if user_input == "commands":
-            print("Since most answers to questions are created by you, the user, I'll only list down my built in commands.")
+            print("I have some built in commands that you can use such as time and math!")
+            print("You start all commands with a \"/\" and then the command. Below is a list of all my commands")
+            print("/math     - [ALPHA] This is still in development, but right now this is capable of doing basic math with only two numbers.")
+            print("/help     - This sends you to this page!")
+            print("/services - Lists down all the services being used in this program, and gives you the option to disable/enable them")
+            print("/time     - Prints the time and date! Pretty nifty, huh?")
             continue
 
         if user_input == "input markers":
@@ -24,16 +29,3 @@ def func():
             print(" [A] - answering input that will set whatever you write as the answer to your question")
             print(" [S] - service editing input")
             continue
-
-        if user_input == "math":
-            print("So far I can only do basic math, like addition, subtraction, multiplication and division.")
-            print("If you want me to calculate something for you, write in a question with 2 numbers with a math symbol (+, -, /, *)")
-            continue
-
-        if user_input == "services":
-            print("Services are the smaller functions that handle dynamic questions like math or this help page.")
-            print("Some of my services are incomplete and are disabled by default to keep this program running smoothly.")
-            print("If you want to disable or enable a service, type in the \"services\" command in a [~] input to view them all.")
-            continue
-        
-        print("I couldn't find the subject you're looking to find out more about! Maybe check for any typos?")
