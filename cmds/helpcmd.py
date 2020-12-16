@@ -20,6 +20,7 @@ def func():
             print("/help     - This sends you to this page!")
             print("/services - Lists down all the services being used in this program, and gives you the option to disable/enable them")
             print("/time     - Prints the time and date! Pretty nifty, huh?")
+            print("/sqrt     - Brings up the kSquareRoot function for finding the square root of the number you're looking for.")
             continue
 
         if user_input == "input markers":
