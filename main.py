@@ -2,25 +2,36 @@ print("\nJust a moment while everything is being set up...")
 
 # Opens files and sets up variables
 import connect
+import formatting
 
-qadocument_r = open("qadoc", "r")
-file_lines = qadocument_r.readlines()
-qadocument_r.close()
+with open("qadoc", "r") as qadocument_r:
+    file_lines = qadocument_r.readlines()
 
 questions = []
 answers = []
 
 print("Formatting and sorting QAs...")
 
-# commands array
 cmds = [
-    ["help", "helpcmd"],
-    ["services", connect.list_processes],
-    ["time", "timecmd"],
-    ["math", "mathcmd"],
-    ["sqrt", "sqrtcmd"],
-    ["exit", exit],
-    ["quit", exit]
+    {
+        "name": "help",
+        "cmd":  "helpcmd"
+    }, {
+        "name": "services",
+        "cmd":  connect.list_processes
+    }, {
+        "name": "time",
+        "cmd":  "timecmd"
+    }, {
+        "name": "math",
+        "cmd":  "mathcmd"
+    }, {
+        "name": "exit",
+        "cmd":  exit
+    }, {
+        "name": "quit",
+        "cmd":  exit
+    }
 ]
 
 # Removes the annoying \n in all the lines
@@ -34,14 +45,12 @@ for file_line in file_lines:
     questions.append(split_line[0])
     answers.append(split_line[1])
 
-print("\nWelcome to Lenny! Version 0.3:30.10.20")
+print("\nWelcome to Lenny! Version 0.3.3")
 print("To get started, type in any question! Type \"/help\" to get more detailed instructions.\n")
 
 while True:
     user_input = input("[~] ")
-    user_input = user_input.lower()
-    for letter in "?!.,\"'":
-        user_input = user_input.replace(letter, "")
+    user_input = formatting.format_input(user_input)
 
     # Built in functions (priority) so that user can't overwrite them
     if user_input == "exit" or user_input == "quit":
@@ -52,11 +61,11 @@ while True:
         foundResult = False
 
         for cmd in cmds:
-            if user_input[1:] == cmd[0]:
-                if isinstance(cmd[1], str):
-                    connect.run_process(cmd[1])
+            if user_input[1:] == cmd["name"]:
+                if isinstance(cmd["cmd"], str):
+                    connect.run_process(cmd["cmd"])
                 else:
-                    cmd[1]()
+                    cmd["cmd"]()
                 
                 foundResult = True
                 break
@@ -82,7 +91,6 @@ while True:
         answers.append(new_answer)
         questions.append(user_input)
 
-        qadocument_a = open("qadoc", "a")
-        new_qa_line = user_input+"~"+new_answer+"\n"
-        qadocument_a.write(new_qa_line)
-        qadocument_a.close()
+        with open("qadoc", "a") as qadocument_a:
+            new_qa_line = user_input+"~"+new_answer+"\n"
+            qadocument_a.write(new_qa_line)
