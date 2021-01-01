@@ -12,27 +12,15 @@ answers = []
 
 print("Formatting and sorting QAs...")
 
-cmds = [
-    {
-        "name": "help",
-        "cmd":  "helpcmd"
-    }, {
-        "name": "services",
-        "cmd":  connect.list_processes
-    }, {
-        "name": "time",
-        "cmd":  "timecmd"
-    }, {
-        "name": "math",
-        "cmd":  "mathcmd"
-    }, {
-        "name": "exit",
-        "cmd":  exit
-    }, {
-        "name": "quit",
-        "cmd":  exit
-    }
-]
+# commands dict
+cmds = {
+    "help": "helpcmd",
+    "services": connect.list_processes,
+    "time": "timecmd",
+    "math": "mathcmd",
+    "exit": exit,
+    "quit": exit
+}
 
 # Removes the annoying \n in all the lines
 for file_line in file_lines:
@@ -59,16 +47,14 @@ while True:
     # Command handling
     if user_input[0] == "/":
         foundResult = False
+        
+        if user_input[1:] in cmds:
+            if isinstance(cmds[user_input[1:]], str):
+                connect.run_process(cmds[user_input[1:]])
+            else:
+                cmds[user_input[1:]]()
 
-        for cmd in cmds:
-            if user_input[1:] == cmd["name"]:
-                if isinstance(cmd["cmd"], str):
-                    connect.run_process(cmd["cmd"])
-                else:
-                    cmd["cmd"]()
-                
-                foundResult = True
-                break
+            foundResult = True
         
         if foundResult == True: 
             continue
