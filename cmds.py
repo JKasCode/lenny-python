@@ -60,7 +60,7 @@ def sqrtcmd():
     result = kSquareRoot(tested_num, reps)
     print("Result: "+str(result))
 
-def func():
+def timecmd():
     time = datetime.datetime.now()
     print("The time is " + time.strftime("%H") + ":" + time.strftime("%M"))
     print("Today is " + time.strftime("%A") + ", " + time.strftime("%d") + " " + time.strftime("%B"))
