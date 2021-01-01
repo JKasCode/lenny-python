@@ -1,13 +1,10 @@
 # Main module in the code that will be used to filter which other modules will be used
 
-import cmds.helpcmd
-import cmds.mathcmd
-import cmds.timecmd
-import cmds.sqrtcmd
+import cmds
+import formatting
 
-service_list_file = open("service-list", "r")
-services = service_list_file.readlines()
-service_list_file.close()
+with open("service-list", "r") as service_list_file:
+    services = service_list_file.readlines()
 
 service_enabled = []
 service_names = []
@@ -16,15 +13,13 @@ for service in services: # Splits and sorts the services
     service_names.append(split_service[0])
     service_enabled.append(split_service[1].rstrip()) # Get rid of that annoying \n
 
-modules_list = dir(cmds)
-
 def run_process(name, *args):
-    if name in modules_list: 
+    if name in service_names: 
         if service_enabled[service_names.index(name)] == "enabled": # Checks if the service is enabled
             if len(args) > 0:
-                getattr(cmds, name).func(*args)
+                getattr(cmds, name)(*args)
             else:
-                getattr(cmds, name).func()
+                getattr(cmds, name)()
         else:
             print("This service is disabled. Type the command \"services\" to enable it.")
     else:
@@ -36,6 +31,7 @@ def list_processes(): # List and toggle services
         print(service + " - " + service_enabled[service_names.index(service)])
     
     user_input = input("[S] ")
+    user_input = formatting.format_input(user_input)
 
     if user_input == "cancel":
         print("Cancelled\n")
@@ -48,10 +44,9 @@ def list_processes(): # List and toggle services
         else:
             service_e = "enabled"
 
-        services[service_names.index(user_input)] = user_input+"-"+service_e # Overwrite file with new preferences
-        service_file_w = open("service-list", "w")
-        service_file_w.writelines(services)
-        service_file_w.close()
+        services[service_names.index(user_input)] = user_input+"-"+service_e+"\n" # Overwrite file with new preferences
+        with open("service-list", "w") as service_file_w:
+            service_file_w.writelines(services)
 
         service_enabled[service_names.index(user_input)] = service_e # Sets local variable to disabled so that user doesn't have to reset for effect to kick in
         print(user_input + " " + service_e+"\n")
