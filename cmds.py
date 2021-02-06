@@ -65,14 +65,21 @@ def timecmd():
     print("The time is " + time.strftime("%H") + ":" + time.strftime("%M"))
     print("Today is " + time.strftime("%A") + ", " + time.strftime("%d") + " " + time.strftime("%B"))
 
-def helpcmd():
+def helpcmd(jump):
     print("\nI work by learning the answers to any question you have, then remembering them for later.\nFor more help, type in any of the subjects below for details.\nWhen you're done, type in \"exit\" to go back.")
-
     print("\nformat\ncommands\ninput markers\n")
 
+    debounce = False
+
     while True:
-        user_input = input("[H] ")
-        user_input = formatting.format_input(user_input)
+        user_input = None
+
+        if jump and not debounce:
+            user_input = jump
+            debounce = True
+        else:
+            user_input = input("[H] ")
+            user_input = formatting.format_input(user_input)
 
         if user_input == "exit":
             break
@@ -83,7 +90,7 @@ def helpcmd():
 
         if user_input == "commands":
             print("I have some built in commands that you can use such as time and math!")
-            print("You start all commands with a \"/\" and then the command. Below is a list of all my commands")
+            print("You start all commands with a \"/\" and then the command. Below is a list of all my commands'\n")
             print("/math     - [ALPHA] This is still in development, but right now this is capable of doing basic math with only two numbers.")
             print("/help     - This sends you to this page!")
             print("/services - Lists down all the services being used in this program, and gives you the option to disable/enable them")
