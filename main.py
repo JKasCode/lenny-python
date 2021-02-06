@@ -14,21 +14,44 @@ print("Formatting and sorting QAs...")
 
 # commands dict
 cmds = {
-    "help": "helpcmd",
-    "services": connect.list_processes,
-    "time": "timecmd",
-    "math": "mathcmd",
-    "exit": exit,
-    "quit": exit
+    "help": {
+        "command": "helpcmd",
+        "arguments": ""
+    },
+    "services": {
+        "command": connect.list_processes,
+        "arguments": None
+    },
+    "time": {
+        "command": "timecmd",
+        "arguments": None
+    },
+    "math": {
+        "command": "mathcmd",
+        "arguments": None
+    },
+    "exit": {
+        "command": exit,
+        "arguments": None
+    },
+    "quit": {
+        "command": exit,
+        "arguments": None
+    },
+    "sqrt": {
+        "command": "sqrtcmd",
+        "arguments": None
+    },
+    "cmds": {
+        "command": "helpcmd",
+        "arguments": "commands"
+    }
 }
 
 # Removes the annoying \n in all the lines
 for file_line in file_lines:
-    file_place = file_lines.index(file_line)
-    file_lines[file_place] = file_lines[file_place].rstrip()
-
-for file_line in file_lines:
-    split_line = file_line.split("~")
+    formatted = file_line.rstrip()
+    split_line = formatted.split("~")
 
     questions.append(split_line[0])
     answers.append(split_line[1])
@@ -49,10 +72,15 @@ while True:
         foundResult = False
         
         if user_input[1:] in cmds:
-            if isinstance(cmds[user_input[1:]], str):
-                connect.run_process(cmds[user_input[1:]])
+            slashremoved = cmds[user_input[1:]]
+
+            if isinstance(slashremoved["command"], str):
+                if slashremoved["arguments"] == None:
+                    connect.run_process(slashremoved["command"])
+                else:
+                    connect.run_process(slashremoved["command"], slashremoved["arguments"])
             else:
-                cmds[user_input[1:]]()
+                slashremoved["command"]()
 
             foundResult = True
         
