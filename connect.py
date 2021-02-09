@@ -53,3 +53,6 @@ def list_processes(): # List and toggle services
     else:
         if user_input != "cancel":
             print("I couldn't find a service by that name!\n")
+
+def get_commands():
+    return cmds.commands
