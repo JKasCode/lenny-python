@@ -2,6 +2,59 @@ import math
 import datetime
 import formatting
 
+commands = {
+    "help": {
+        "command": "helpcmd",
+        "arguments": "",
+        "desc": "This sends you to this page!"
+    },
+    "services": {
+        "command": "connect.list_processes",
+        "arguments": None,
+        "desc": "Lists down all the services used in this program, and gives you the option to enable or disable them"
+    },
+    "time": {
+        "command": "timecmd",
+        "arguments": None,
+        "desc": "Prints the time and date! Pretty nifty, huh?"
+    },
+    "math": {
+        "command": "mathcmd",
+        "arguments": None,
+        "desc": "[ALPHA] Doesn't really work for now but maybe someday soon it perhaps might be fixed!"
+    },
+    "reminder": {
+        "command": "remindercmd",
+        "arguments": None,
+        "desc": "Command to edit the reminder note that pops up every time you start the program!"
+    },
+    "exit": {
+        "command": exit,
+        "arguments": None,
+        "desc": "Stops the program. That's kind of it."
+    },
+    "quit": {
+        "command": exit,
+        "arguments": None,
+        "desc": "Also stops the program. Exciting!"
+    },
+    "sqrt": {
+        "command": "sqrtcmd",
+        "arguments": None,
+        "desc": "Brings up the custom kSquareRoot algorithm"
+    },
+    "cmds": {
+        "command": "helpcmd",
+        "arguments": "commands",
+        "desc": "Prints all the commands in a neat little list!"
+    }
+}
+
+def print_commands():
+    for key,value in commands.items():
+        print(" /"+key)
+        print(" - "+value["desc"])
+
 def kSquareRoot(tested_num, repetitions): # KasCode's Square Root finder algorithm!
     current_min = 0
     current_max = tested_num
@@ -91,11 +144,8 @@ def helpcmd(jump):
         if user_input == "commands":
             print("I have some built in commands that you can use such as time and math!")
             print("You start all commands with a \"/\" and then the command. Below is a list of all my commands'\n")
-            print("/math     - [ALPHA] This is still in development, but right now this is capable of doing basic math with only two numbers.")
-            print("/help     - This sends you to this page!")
-            print("/services - Lists down all the services being used in this program, and gives you the option to disable/enable them")
-            print("/time     - Prints the time and date! Pretty nifty, huh?")
-            print("/sqrt     - Brings up the kSquareRoot function for finding the square root of the number you're looking for.")
+            
+            print_commands()
             continue
 
         if user_input == "input markers":
@@ -104,6 +154,7 @@ def helpcmd(jump):
             print(" [H] - help page input for detail on subjects")
             print(" [A] - answering input that will set whatever you write as the answer to your question")
             print(" [S] - service editing input")
+            print(" [R] - reminder editing input")
             continue
 
 def mathcmd():
@@ -139,3 +190,25 @@ def mathcmd():
             print(" [A] - answering input that will set whatever you write as the answer to your question")
             print(" [S] - service editing input")
             continue
+
+def remindercmd():
+    print("You are now editing the reminder!")
+    print("Type the new reminder you want, type \"cancel\" to cancel or type \"clear\" to clear.")
+
+    rem_input = input("[R] ")
+    new_reminder = ""
+    cancelled = False
+
+    if rem_input == "cancel":
+        print("Cancelled")
+        cancelled = True
+    elif rem_input == "clear":
+        new_reminder = ""
+    else:
+        new_reminder = rem_input
+
+    if not cancelled:
+        with open("reminder", "w") as reminder_w:
+            reminder_w.write(new_reminder)
+        
+        print("Reminder updated!")
