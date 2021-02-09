@@ -23,7 +23,7 @@ for file_line in file_lines:
     questions.append(split_line[0])
     answers.append(split_line[1])
 
-print("\nWelcome to Lenny! Version 0.3.3")
+print("\nWelcome to Lenny! Version 0.3.4")
 print("To get started, type in any question! Type \"/help\" to get more detailed instructions.\n")
 
 with open("reminder", "r") as reminder_doc:
