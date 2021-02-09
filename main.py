@@ -13,40 +13,7 @@ answers = []
 print("Formatting and sorting QAs...")
 
 # commands dict
-cmds = {
-    "help": {
-        "command": "helpcmd",
-        "arguments": ""
-    },
-    "services": {
-        "command": connect.list_processes,
-        "arguments": None
-    },
-    "time": {
-        "command": "timecmd",
-        "arguments": None
-    },
-    "math": {
-        "command": "mathcmd",
-        "arguments": None
-    },
-    "exit": {
-        "command": exit,
-        "arguments": None
-    },
-    "quit": {
-        "command": exit,
-        "arguments": None
-    },
-    "sqrt": {
-        "command": "sqrtcmd",
-        "arguments": None
-    },
-    "cmds": {
-        "command": "helpcmd",
-        "arguments": "commands"
-    }
-}
+cmds = connect.get_commands()
 
 # Removes the annoying \n in all the lines
 for file_line in file_lines:
@@ -58,6 +25,14 @@ for file_line in file_lines:
 
 print("\nWelcome to Lenny! Version 0.3.3")
 print("To get started, type in any question! Type \"/help\" to get more detailed instructions.\n")
+
+with open("reminder", "r") as reminder_doc:
+    reminder = reminder_doc.read()
+
+    if reminder == "":
+        reminder = "E"
+    else:
+        print("Reminder: "+reminder+"\n")
 
 while True:
     user_input = input("[~] ")
@@ -74,13 +49,13 @@ while True:
         if user_input[1:] in cmds:
             slashremoved = cmds[user_input[1:]]
 
-            if isinstance(slashremoved["command"], str):
+            if "connect" not in slashremoved["command"]:
                 if slashremoved["arguments"] == None:
                     connect.run_process(slashremoved["command"])
                 else:
                     connect.run_process(slashremoved["command"], slashremoved["arguments"])
             else:
-                slashremoved["command"]()
+                getattr(connect, slashremoved["command"].replace("connect.", ""))()
 
             foundResult = True
         
