@@ -5,9 +5,12 @@ Lenny is a self-learning AI that can remember the answers to any question the us
 So far Lenny is kind of useless because you need to know the answer to your question for Lenny to learn.
 
 ### 0.3.4 updates:
- - Commands now have the option to have arguments
- - Cleaner commands dictionary
- - New command: `/cmds` which opens the /help command but jumps to commands
+ - Improved commands dictionary
+ - Moved commands dictionary to `cmds.py`
+ - New editable reminder that prints when you start the program
+ - New commands: 
+   - `/cmds` which opens the /help command but jumps to commands
+   - `/reminder` which allows you to edit the reminder
  
 ### Using Lenny
  1. Clone this repository
