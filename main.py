@@ -13,28 +13,26 @@ answers = []
 print("Formatting and sorting QAs...")
 
 # commands dict
-cmds = {
-    "help": "helpcmd",
-    "services": connect.list_processes,
-    "time": "timecmd",
-    "math": "mathcmd",
-    "exit": exit,
-    "quit": exit
-}
+cmds = connect.get_commands()
 
 # Removes the annoying \n in all the lines
 for file_line in file_lines:
-    file_place = file_lines.index(file_line)
-    file_lines[file_place] = file_lines[file_place].rstrip()
-
-for file_line in file_lines:
-    split_line = file_line.split("~")
+    formatted = file_line.rstrip()
+    split_line = formatted.split("~")
 
     questions.append(split_line[0])
     answers.append(split_line[1])
 
-print("\nWelcome to Lenny! Version 0.3.3")
+print("\nWelcome to Lenny! Version 0.3.4")
 print("To get started, type in any question! Type \"/help\" to get more detailed instructions.\n")
+
+with open("reminder", "r") as reminder_doc:
+    reminder = reminder_doc.read()
+
+    if reminder == "":
+        reminder = "E"
+    else:
+        print("Reminder: "+reminder+"\n")
 
 while True:
     user_input = input("[~] ")
@@ -49,10 +47,15 @@ while True:
         foundResult = False
         
         if user_input[1:] in cmds:
-            if isinstance(cmds[user_input[1:]], str):
-                connect.run_process(cmds[user_input[1:]])
+            slashremoved = cmds[user_input[1:]]
+
+            if "connect" not in slashremoved["command"]:
+                if slashremoved["arguments"] == None:
+                    connect.run_process(slashremoved["command"])
+                else:
+                    connect.run_process(slashremoved["command"], slashremoved["arguments"])
             else:
-                cmds[user_input[1:]]()
+                getattr(connect, slashremoved["command"].replace("connect.", ""))()
 
             foundResult = True
         
