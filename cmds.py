@@ -1,6 +1,7 @@
 import math
 import datetime
 import formatting
+import os
 
 commands = {
     "help": {
@@ -47,7 +48,13 @@ commands = {
         "command": "helpcmd",
         "arguments": "commands",
         "desc": "Prints all the commands in a neat little list!"
+    },
+    "update": {
+        "command": "update",
+        "arguments": None,
+        "desc": "Update the code!"
     }
+
 }
 
 def print_commands():
@@ -212,3 +219,7 @@ def remindercmd():
             reminder_w.write(new_reminder)
         
         print("Reminder updated!")
+
+def update():
+    os.system("git pull")
+    print("[INFO] Code has been updated, please restart your instance.")
