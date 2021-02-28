@@ -1,4 +1,6 @@
-# lenny-helper
+# lenny-python
+
+<img src="https://img.shields.io/github/issues/JKasCode/lenny-python" alt="open issues"></img> <img src="https://img.shields.io/github/v/tag/JKasCode/lenny-python?label=version" alt="open issues"></img> 
 
 Lenny is a self-learning AI that can remember the answers to any question the user might have. Lenny is still in early stages, so most aspects are unstable and incomplete.
 
