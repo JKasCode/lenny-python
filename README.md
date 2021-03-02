@@ -9,13 +9,11 @@ ___
 Check out the [Lenny Wiki](https://github.com/JKasCode/lenny-python/wiki) for update logs, commands and other info!
 ___
 
-### 0.3.4 updates:
- - Improved commands dictionary
- - Moved commands dictionary to `cmds.py`
- - New editable reminder that prints when you start the program
- - New commands: 
-   - `/cmds` which opens the /help command but jumps to commands
-   - `/reminder` which allows you to edit the reminder
+### 0.3.5 updates:
+ - Remade services
+ - `sqrt` is now a child service of `maths`
+ - New commands: `/rawtime` and `/update`
+ - First update using the command line!!
 ___
 ### Using Lenny
  1. Clone this repository
