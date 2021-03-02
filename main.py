@@ -30,16 +30,16 @@ with open("reminder", "r") as reminder_doc:
     reminder = reminder_doc.read()
 
     if reminder == "":
-        reminder = "E"
+        reminder = "E" # dont ask why
     else:
-        print("Reminder: "+reminder+"\n")
+        print("Reminder: "+reminder.rstrip()+"\n")
 
 while True:
     user_input = input("[~] ")
     user_input = formatting.format_input(user_input)
 
     # Built in functions (priority) so that user can't overwrite them
-    if user_input == "exit" or user_input == "quit":
+    if user_input == "exit" or user_input == "quit" or user_input == "/exit" or user_input == "/quit":
         exit()
     
     # Command handling
@@ -47,15 +47,15 @@ while True:
         foundResult = False
         
         if user_input[1:] in cmds:
-            slashremoved = cmds[user_input[1:]]
+            sr = cmds[user_input[1:]]
 
-            if "connect" not in slashremoved["command"]:
-                if slashremoved["arguments"] == None:
-                    connect.run_process(slashremoved["command"])
+            if "command" not in sr:
+                if sr["arguments"] == None:
+                    connect.run_process(sr["service"], sr["child"])
                 else:
-                    connect.run_process(slashremoved["command"], slashremoved["arguments"])
+                    connect.run_process(sr["service"], sr["child"], sr["arguments"])
             else:
-                getattr(connect, slashremoved["command"].replace("connect.", ""))()
+                getattr(connect, sr["command"].replace("connect.", ""))()
 
             foundResult = True
         
