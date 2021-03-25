@@ -1,5 +1,5 @@
-helpcmd-enabled
-mathcmd-disabled
-timecmd-enabled
-sqrtcmd-enabled
-remindercmd-enabled
+helps-enabled
+maths-enabled
+times-enabled
+reminders-enabled
+updates-disabled

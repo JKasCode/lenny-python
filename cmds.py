@@ -5,7 +5,8 @@ import os
 
 commands = {
     "help": {
-        "command": "helpcmd",
+        "service": "helps",
+        "child": "main",
         "arguments": "",
         "desc": "This sends you to this page!"
     },
@@ -15,17 +16,26 @@ commands = {
         "desc": "Lists down all the services used in this program, and gives you the option to enable or disable them"
     },
     "time": {
-        "command": "timecmd",
+        "service": "times",
+        "child": "display",
         "arguments": None,
         "desc": "Prints the time and date! Pretty nifty, huh?"
     },
+    "rawtime": {
+        "service": "times",
+        "child": "rawdisplay",
+        "arguments": None,
+        "desc": "Prints the raw time in seconds"
+    },
     "math": {
-        "command": "mathcmd",
+        "service": "maths",
+        "child": "calculator",
         "arguments": None,
         "desc": "[ALPHA] Doesn't really work for now but maybe someday soon it perhaps might be fixed!"
     },
     "reminder": {
-        "command": "remindercmd",
+        "service": "reminders",
+        "child": "set",
         "arguments": None,
         "desc": "Command to edit the reminder note that pops up every time you start the program!"
     },
@@ -40,21 +50,23 @@ commands = {
         "desc": "Also stops the program. Exciting!"
     },
     "sqrt": {
-        "command": "sqrtcmd",
+        "service": "maths",
+        "child": "sqrt",
         "arguments": None,
         "desc": "Brings up the custom kSquareRoot algorithm"
     },
     "cmds": {
-        "command": "helpcmd",
+        "service": "helps",
+        "child": "main",
         "arguments": "commands",
         "desc": "Prints all the commands in a neat little list!"
     },
     "update": {
-        "command": "update",
+        "service": "updates",
+        "child": "pull",
         "arguments": None,
         "desc": "Update the code!"
     }
-
 }
 
 def print_commands():
@@ -86,6 +98,89 @@ def kSquareRoot(tested_num, repetitions): # KasCode's Square Root finder algorit
             current_min = middle
 
     return current_min + ( current_max - current_min ) / 2
+
+def timecmd():
+    time = datetime.datetime.now()
+    print("The time is " + time.strftime("%H") + ":" + time.strftime("%M"))
+    print("Today is " + time.strftime("%A") + ", " + time.strftime("%d") + " " + time.strftime("%B"))
+
+def rawtimecmd():
+    time = datetime.datetime.now()
+    print(time)
+
+
+def helpcmd(jump):
+    if not jump:
+        print("\nI work by learning the answers to any question you have, then remembering them for later.\nFor more help, type in any of the subjects below for details.\nWhen you're done, type in \"exit\" to go back.")
+        print("\nformat\ncommands\ninput markers\n")
+
+    debounce = False
+
+    while True:
+        user_input = None
+
+        if jump and not debounce:
+            user_input = jump
+            debounce = True
+        else:
+            user_input = input("[H] ")
+            user_input = formatting.format_input(user_input)
+
+        if user_input == "exit":
+            break
+
+        if user_input == "format":
+            print("I recommend that you don't add any punctuations such as ! or ?. I also don't really care whether you capitalize your sentences or not!")
+            continue
+
+        if user_input == "commands":
+            print("I have some built in commands that you can use such as time and math!")
+            print("You start all commands with a \"/\" and then the command. Below is a list of all my commands'\n")
+            
+            print_commands()
+
+            if jump == "commands":
+                break
+
+            continue
+
+        if user_input == "input markers":
+            print("You might have noticed that when you're typing something in, theres a little box on the left. Here is a list of what they mean:")
+            print(" [~] - basic input where you write in a question")
+            print(" [H] - help page input for detail on subjects")
+            print(" [A] - answering input that will set whatever you write as the answer to your question")
+            print(" [S] - service editing input")
+            print(" [R] - reminder editing input")
+            continue
+
+def remindercmd():
+    print("You are now editing the reminder!")
+    print("Type the new reminder you want, type \"cancel\" to cancel or type \"clear\" to clear.")
+
+    rem_input = input("[R] ")
+    new_reminder = ""
+    cancelled = False
+
+    if rem_input == "cancel":
+        print("Cancelled")
+        cancelled = True
+    elif rem_input == "clear":
+        new_reminder = ""
+    else:
+        new_reminder = rem_input
+
+    if not cancelled:
+        with open("reminder", "w") as reminder_w:
+            reminder_w.write(new_reminder)
+        
+        print("Reminder updated!")
+
+def update():
+    os.system("git pull")
+    print("Code has been updated, please restart your instance.")
+
+def mathcmd():
+    print("Calculator is currently not functioning.")
 
 def sqrtcmd():
     tested_num = 0
@@ -120,106 +215,24 @@ def sqrtcmd():
     result = kSquareRoot(tested_num, reps)
     print("Result: "+str(result))
 
-def timecmd():
-    time = datetime.datetime.now()
-    print("The time is " + time.strftime("%H") + ":" + time.strftime("%M"))
-    print("Today is " + time.strftime("%A") + ", " + time.strftime("%d") + " " + time.strftime("%B"))
+maths = {
+    "calculator": mathcmd,
+    "sqrt": sqrtcmd
+}
 
-def helpcmd(jump):
-    print("\nI work by learning the answers to any question you have, then remembering them for later.\nFor more help, type in any of the subjects below for details.\nWhen you're done, type in \"exit\" to go back.")
-    print("\nformat\ncommands\ninput markers\n")
+helps = {
+    "main": helpcmd
+}
 
-    debounce = False
+updates = {
+    "pull": update,
+}
 
-    while True:
-        user_input = None
+reminders = {
+    "set": remindercmd
+}
 
-        if jump and not debounce:
-            user_input = jump
-            debounce = True
-        else:
-            user_input = input("[H] ")
-            user_input = formatting.format_input(user_input)
-
-        if user_input == "exit":
-            break
-
-        if user_input == "format":
-            print("I recommend that you don't add any punctuations such as ! or ?. I also don't really care whether you capitalize your sentences or not!")
-            continue
-
-        if user_input == "commands":
-            print("I have some built in commands that you can use such as time and math!")
-            print("You start all commands with a \"/\" and then the command. Below is a list of all my commands'\n")
-            
-            print_commands()
-            continue
-
-        if user_input == "input markers":
-            print("You might have noticed that when you're typing something in, theres a little box on the left. Here is a list of what they mean:")
-            print(" [~] - basic input where you write in a question")
-            print(" [H] - help page input for detail on subjects")
-            print(" [A] - answering input that will set whatever you write as the answer to your question")
-            print(" [S] - service editing input")
-            print(" [R] - reminder editing input")
-            continue
-
-def mathcmd():
-    print("\nI work by learning the answers to any question you have, then remembering them for later.\nFor more help, type in any of the subjects below for details.\nWhen you're done, type in \"exit\" to go back.")
-
-    print("\nformat\ncommands\ninput markers\n")
-
-    while True:
-        user_input = input("[H] ")
-        
-
-        if user_input == "exit":
-            break
-
-        if user_input == "format":
-            print("I recommend that you don't add any punctuations such as ! or ?. I also don't really care whether you capitalize your sentences or not!")
-            continue
-
-        if user_input == "commands":
-            print("I have some built in commands that you can use such as time and math!")
-            print("You start all commands with a \"/\" and then the command. Below is a list of all my commands")
-            print("/math     - [ALPHA] This is still in development, but right now this is capable of doing basic math with only two numbers.")
-            print("/help     - This sends you to this page!")
-            print("/services - Lists down all the services being used in this program, and gives you the option to disable/enable them")
-            print("/time     - Prints the time and date! Pretty nifty, huh?")
-            print("/sqrt     - Brings up the kSquareRoot function for finding the square root of the number you're looking for.")
-            continue
-
-        if user_input == "input markers":
-            print("You might have noticed that when you're typing something in, theres a little box on the left. Here is a list of what they mean:")
-            print(" [~] - basic input where you write in a question")
-            print(" [H] - help page input for detail on subjects")
-            print(" [A] - answering input that will set whatever you write as the answer to your question")
-            print(" [S] - service editing input")
-            continue
-
-def remindercmd():
-    print("You are now editing the reminder!")
-    print("Type the new reminder you want, type \"cancel\" to cancel or type \"clear\" to clear.")
-
-    rem_input = input("[R] ")
-    new_reminder = ""
-    cancelled = False
-
-    if rem_input == "cancel":
-        print("Cancelled")
-        cancelled = True
-    elif rem_input == "clear":
-        new_reminder = ""
-    else:
-        new_reminder = rem_input
-
-    if not cancelled:
-        with open("reminder", "w") as reminder_w:
-            reminder_w.write(new_reminder)
-        
-        print("Reminder updated!")
-
-def update():
-    os.system("git pull")
-    print("[INFO] Code has been updated, please restart your instance.")
+times = {
+    "display": timecmd,
+    "rawdisplay": rawtimecmd
+}

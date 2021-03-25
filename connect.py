@@ -13,13 +13,13 @@ for service in services: # Splits and sorts the services
     service_names.append(split_service[0])
     service_enabled.append(split_service[1].rstrip()) # Get rid of that annoying \n
 
-def run_process(name, *args):
-    if name in service_names: 
-        if service_enabled[service_names.index(name)] == "enabled": # Checks if the service is enabled
+def run_process(service, child, *args):
+    if service in service_names: 
+        if service_enabled[service_names.index(service)] == "enabled": # Checks if the service is enabled
             if len(args) > 0:
-                getattr(cmds, name)(*args)
+                getattr(cmds, service)[child](*args)
             else:
-                getattr(cmds, name)()
+                getattr(cmds, service)[child]()
         else:
             print("This service is disabled. Type the command \"services\" to enable it.")
     else:
